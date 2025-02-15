@@ -1,0 +1,8 @@
+.settings
+.vscode
+.cproject
+.mxproject
+FreeRTOS.ioc
+FreeRTOS.launch
+STM32L475VGTX_FLASH.ld
+STM32L475VGTX_RAM.ld

@@ -1,0 +1,5 @@
+../Core/Src/module_sensors.c:11:6:initSensorBSP	8	static
+../Core/Src/module_sensors.c:30:6:seperateRxPacket	168	static
+../Core/Src/module_sensors.c:64:7:get_humidity_info	8	static
+../Core/Src/module_sensors.c:69:7:get_temp_info	16	static
+../Core/Src/module_sensors.c:80:7:get_atmospheric_pressure_info	8	static
