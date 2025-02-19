@@ -54,7 +54,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  ../Core/Inc/comm_module.h ../Core/Inc/packet_receiver.h \
- ../Core/Inc/main.h ../Core/Inc/common.h
+ ../Core/Inc/main.h ../Core/Inc/common.h ../Core/Inc/controller.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
@@ -114,3 +114,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/packet_receiver.h:
 ../Core/Inc/main.h:
 ../Core/Inc/common.h:
+../Core/Inc/controller.h:

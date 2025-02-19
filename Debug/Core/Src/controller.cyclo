@@ -1,1 +1,2 @@
-../Core/Src/controller.c:9:6:vTaskLEDOnOff	1
+../Core/Src/controller.c:13:6:vTaskDCMotorControl	4
+../Core/Src/controller.c:59:6:vTaskLEDOnOff	1

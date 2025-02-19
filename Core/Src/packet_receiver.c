@@ -1,6 +1,7 @@
 #include "packet_receiver.h"
 #include "cmsis_os.h"
 #include "module_sensors.h"
+#include "controller.h"
 #include "common.h"
 
 uint8_t uartBuff[RX_BUFFER_SIZE] = {0x00, };
@@ -93,6 +94,9 @@ void vTaskUARTReceiver(void *pvParameters)
 						break;
 					case REQ_TYPE_CONTROL:
 						printf("Are you request Controller? \r\n");
+						int rpm = packet.data[3];
+						// Create a new task for control request
+						xTaskCreate(vTaskDCMotorControl, "ControlHandler", configMINIMAL_STACK_SIZE, rpm, tskIDLE_PRIORITY, NULL);
 						break;
 					default:
 						target_function();

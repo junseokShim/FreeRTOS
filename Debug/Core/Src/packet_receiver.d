@@ -62,7 +62,7 @@ Core/Src/packet_receiver.o: ../Core/Src/packet_receiver.c \
  /home/junseokshim/STM32CubeIDE/workspace_1.17.0/FreeRTOS/Drivers/BSP/../Components/hts221/../Common/hsensor.h \
  /home/junseokshim/STM32CubeIDE/workspace_1.17.0/FreeRTOS/Drivers/BSP/../Components/hts221/../Common/tsensor.h \
  /home/junseokshim/STM32CubeIDE/workspace_1.17.0/FreeRTOS/Drivers/BSP/B-L475E-IOT01/stm32l475e_iot01.h \
- ../Core/Inc/common.h
+ ../Core/Inc/controller.h ../Core/Inc/common.h
 ../Core/Inc/packet_receiver.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
@@ -127,4 +127,5 @@ Core/Src/packet_receiver.o: ../Core/Src/packet_receiver.c \
 /home/junseokshim/STM32CubeIDE/workspace_1.17.0/FreeRTOS/Drivers/BSP/../Components/hts221/../Common/hsensor.h:
 /home/junseokshim/STM32CubeIDE/workspace_1.17.0/FreeRTOS/Drivers/BSP/../Components/hts221/../Common/tsensor.h:
 /home/junseokshim/STM32CubeIDE/workspace_1.17.0/FreeRTOS/Drivers/BSP/B-L475E-IOT01/stm32l475e_iot01.h:
+../Core/Inc/controller.h:
 ../Core/Inc/common.h:
