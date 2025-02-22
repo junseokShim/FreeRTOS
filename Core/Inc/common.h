@@ -12,6 +12,11 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "FreeRTOS.h"
+#include "queue.h"
+
+extern QueueHandle_t sensorQueue;
+extern QueueHandle_t controlQueue;
 
 typedef struct {
     uint8_t data[RX_BUFFER_SIZE];

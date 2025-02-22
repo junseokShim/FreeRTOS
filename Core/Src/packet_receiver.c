@@ -7,7 +7,6 @@
 uint8_t uartBuff[RX_BUFFER_SIZE] = {0x00, };
 QueueHandle_t uartQueue;
 
-
 void target_function(void)
 {
 	printf("Target packet received! Executing function... \r\n");
@@ -48,7 +47,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 void vTaskUARTReceiver(void *pvParameters)
 {
 	uartQueue = xQueueCreate(10, sizeof(UartPacket));
-	if (uartQueue == NULL)	return;		// 큐 생성 실패
+	if (uartQueue == NULL)	{
+		printf("Queue Generation Fail \r\n");
+		return;		// 큐 생성 실패
+	}
 
 	// 센서 초기화
 	initSensorBSP();
@@ -58,6 +60,8 @@ void vTaskUARTReceiver(void *pvParameters)
 
 	while (1)
 	{
+		printf("Waiting for data... \r\n");
+
 		// 큐에서 수신된 데이터를 가져옴
 		UartPacket packet;
 		if (xQueueReceive(uartQueue, &packet, portMAX_DELAY) == pdPASS)
@@ -69,7 +73,7 @@ void vTaskUARTReceiver(void *pvParameters)
 				sprintf(&strPacket[i * 2], "%02X ", packet.data[i]);
 			}
 			strPacket[packet.length * 2] = '\0'; // Null-terminate the string
-			printf("PData Receiving Success: %s \r\n", strPacket);
+			printf("Data Receiving Success: %s \r\n", strPacket);
 
 			// 받은 데이터가 버퍼 크기를 초과하는지 확인
 			size_t dataLength = packet.length;
@@ -89,14 +93,18 @@ void vTaskUARTReceiver(void *pvParameters)
 			else {
 				switch (reqType){
 					case REQ_TYPE_SENSOR:
-						// Process the received sensor packet
-						seperateRxPacket(packet);
+						printf("Here is sensor data \r\n");
+						if(sensorQueue != NULL)
+						{
+							xQueueSend(sensorQueue, &packet, portMAX_DELAY);
+						}
 						break;
 					case REQ_TYPE_CONTROL:
-						printf("Are you request Controller? \r\n");
-						int rpm = packet.data[3];
-						// Create a new task for control request
-						xTaskCreate(vTaskDCMotorControl, "ControlHandler", configMINIMAL_STACK_SIZE, rpm, tskIDLE_PRIORITY, NULL);
+						printf("Here is control data \r\n");
+						if(controlQueue != NULL)
+						{
+							xQueueSend(controlQueue, &packet, portMAX_DELAY);
+						}
 						break;
 					default:
 						target_function();
@@ -104,7 +112,11 @@ void vTaskUARTReceiver(void *pvParameters)
 				}
 			}
 		}
-
+		else{
+			printf("Data Receiving Fail \r\n");
+		}
+		
+		printf("Reset Queue \r\n");
 		xQueueReset(uartQueue);    //reset queue
 	}
 }

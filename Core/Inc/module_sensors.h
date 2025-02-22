@@ -29,6 +29,6 @@ float get_humidity_info();
 float get_temp_info();
 float get_atmospheric_pressure_info();
 
-void seperateRxPacket(UartPacket packet);
+void vTaskSensorHandler(void *pvParameters);
 
 #endif /* MODULE_SENSORS_H_ */

@@ -63,9 +63,15 @@ osThreadId defaultTaskHandle;
 #include "comm_module.h"
 #include "packet_receiver.h"
 #include "controller.h"
+#include "common.h"
+#include "module_sensors.h"
+#include "controller.h"
 
 TaskHandle_t xTask1Handle;
 TaskHandle_t xTask2Handle;
+
+QueueHandle_t sensorQueue;
+QueueHandle_t controlQueue;
 
 int __io_putchar(int ch)
 {
@@ -208,6 +214,14 @@ int main(void)
   xTaskCreate(vTask1, "Task1", 128, NULL, 3, &xTask1Handle);
   xTaskCreate(vTask2, "Task2", 128, NULL, 4, &xTask2Handle);
   */
+  sensorQueue = xQueueCreate(10, sizeof(UartPacket));
+  controlQueue = xQueueCreate(10, sizeof(UartPacket));
+
+  if (sensorQueue == NULL || controlQueue == NULL)
+  {
+      printf("Failed to create queues.\r\n");
+      return -1;
+  }
  
   if (xTaskCreate(vTaskUARTReceiver, "UART Receiver", 256, NULL, 5, NULL) == pdPASS)
   {
@@ -217,6 +231,10 @@ int main(void)
   {
       printf("Failed to create UART Receiver Task.\r\n");
   }
+
+  // 센서 및 제어 태스크를 한 번만 생성
+  xTaskCreate(vTaskSensorHandler, "SensorHandler", configMINIMAL_STACK_SIZE, NULL, 3, NULL);
+  xTaskCreate(vTaskControlHandler, "ControlHandler", configMINIMAL_STACK_SIZE, NULL, 3, NULL);
 
   //xTaskCreate(vTaskDCMotorControl, "DC Motor Control", 128, NULL, 5, NULL);
   /* USER CODE END RTOS_THREADS */

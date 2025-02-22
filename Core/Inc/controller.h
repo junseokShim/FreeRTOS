@@ -14,6 +14,6 @@
 extern TIM_HandleTypeDef htim2;
 
 void vTaskLEDOnOff(void *pvParameters);
-void vTaskDCMotorControl(void *pvParameters);
+void vTaskControlHandler(void *pvParameters);
 
 #endif /* INC_CONTROLLER_H_ */

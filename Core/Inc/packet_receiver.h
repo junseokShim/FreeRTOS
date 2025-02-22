@@ -15,8 +15,6 @@
 #include <stdio.h>
 #include "common.h"
 
-#define RX_BUFFER_SIZE 8
-
 extern UART_HandleTypeDef huart1;
 
 extern uint8_t uartBuff[RX_BUFFER_SIZE];
