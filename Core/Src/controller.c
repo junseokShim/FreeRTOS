@@ -13,7 +13,7 @@
 
 void vTaskControlHandler(void *pvParameters)
 {
-	    UartPacket receivedPacket;
+	UartPacket receivedPacket;
     TIM_HandleTypeDef htim2;
     TIM_OC_InitTypeDef sConfigOC = {0};
 
@@ -51,26 +51,24 @@ void vTaskControlHandler(void *pvParameters)
 
     while (1)
     {
-        printf("Waiting for control data... \r\n");
 
         // 제어 큐에서 패킷 수신 (무한 대기)
         if (xQueueReceive(controlQueue, &receivedPacket, portMAX_DELAY) == pdPASS)
         {
-            printf("Received control data... \r\n");
 
             // receivedPacket.data[3] 값을 사용하여 PWM 듀티 사이클 조정
             uint16_t dutyCycle = (uint16_t)receivedPacket.data[3];
-            printf("Duty Cycle: %d \r\n", dutyCycle);
-			if (dutyCycle == 0)
+
+            if (dutyCycle == 0)
             {
                 // 듀티 사이클이 0이면 PWM 신호 중지
                 if (HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_4) != HAL_OK)
                 {
-                    printf("Failed to stop PWM.\r\n");
+                    ;
                 }
                 else
                 {
-                    printf("PWM stopped.\r\n");
+                    ;
                 }
             }
             else
@@ -78,12 +76,11 @@ void vTaskControlHandler(void *pvParameters)
                 // 듀티 사이클이 0이 아니면 PWM 신호 시작 및 듀티 사이클 설정
                 if (HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4) != HAL_OK)
                 {
-                    printf("Failed to start PWM.\r\n");
+                    ;
                 }
                 else
                 {
                     __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, dutyCycle); // 듀티 사이클 설정
-                    printf("PWM started with duty cycle: %d\r\n", dutyCycle);
                 }
             }
         }
