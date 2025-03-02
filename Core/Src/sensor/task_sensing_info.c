@@ -4,8 +4,8 @@
  *  Created on: Feb 15, 2025
  *      Author: junseokshim
  */
-#include "module_sensors.h"
-#include "common.h"
+#include <common/commons.h>
+#include <sensor/task_sensing_info.h>
 
 TSENSOR_InitTypeDef gTemp = {};
 

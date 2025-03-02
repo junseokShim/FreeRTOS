@@ -1,8 +1,8 @@
-#include "packet_receiver.h"
+#include <common/commons.h>
+#include <dcm/task_dcm_ctrl.h>
+#include <sensor/task_sensing_info.h>
+#include <uart/task_uart.h>
 #include "cmsis_os.h"
-#include "module_sensors.h"
-#include "controller.h"
-#include "common.h"
 
 uint8_t uartBuff[RX_BUFFER_SIZE] = {0x00, };
 QueueHandle_t uartQueue;

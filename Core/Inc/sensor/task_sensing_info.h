@@ -5,9 +5,10 @@
  *      Author: junseokshim
  */
 
+#include <common/commons.h>
+
 #include "stm32l475e_iot01_hsensor.h"
 #include "stm32l475e_iot01.h"
-#include "common.h"
 
 #ifndef MODULE_SENSORS_H_
 #define MODULE_SENSORS_H_

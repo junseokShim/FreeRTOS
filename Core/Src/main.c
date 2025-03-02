@@ -60,12 +60,12 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 osThreadId defaultTaskHandle;
 /* USER CODE BEGIN PV */
-#include "comm_module.h"
-#include "packet_receiver.h"
-#include "controller.h"
-#include "common.h"
-#include "module_sensors.h"
-#include "controller.h"
+#include <uart/task_uart.h>
+#include <dcm/task_dcm_ctrl.h>
+#include <common/commons.h>
+#include <sensor/task_sensing_info.h>
+#include <dcm/task_dcm_ctrl.h>
+#include <tasks.h>
 
 TaskHandle_t xTask1Handle;
 TaskHandle_t xTask2Handle;
@@ -185,35 +185,7 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-//
-//  xTaskCreate(vTaskDCMotorControl,
-// 		  "DC Motor Control",
-// 		  128,
-// 		  NULL,
-// 		  3,
-// 		  NULL);
 
-  /* Ready -> Running -> Blocked
-  xTaskCreate(vTaskSendTXData,
-		  "Send TX Task1",
-		  128,
-		  "Operate in Task1",
-		  3,
-		  &xTask1Handle);
-
-  xTaskCreate(vTaskSendTXData,
-		  "Send TX Task2",
-		  128,
-		  "Operate in Task2",
-		  4,
-		  &xTask2Handle);
-  */
-
-  // Ready -> Running -> Suspended (example)
-  /*
-  xTaskCreate(vTask1, "Task1", 128, NULL, 3, &xTask1Handle);
-  xTaskCreate(vTask2, "Task2", 128, NULL, 4, &xTask2Handle);
-  */
   sensorQueue = xQueueCreate(10, sizeof(UartPacket));
   controlQueue = xQueueCreate(10, sizeof(UartPacket));
 
@@ -223,20 +195,30 @@ int main(void)
       return -1;
   }
  
-  if (xTaskCreate(vTaskUARTReceiver, "UART Receiver", 256, NULL, 5, NULL) == pdPASS)
-  {
-      printf("UART Receiver Task created successfully.\r\n");
-  }
-  else
-  {
-      printf("Failed to create UART Receiver Task.\r\n");
-  }
+  //uart task
+  xTaskCreate(vTaskUARTReceiver,
+		  "UART Receiver",
+		  256,
+		  NULL,
+		  5,
+		  NULL);
 
-  // 센서 및 제어 태스크를 한 번만 생성
-  xTaskCreate(vTaskSensorHandler, "SensorHandler", configMINIMAL_STACK_SIZE, NULL, 3, NULL);
-  xTaskCreate(vTaskControlHandler, "ControlHandler", configMINIMAL_STACK_SIZE, NULL, 3, NULL);
+  //sensor task
+  xTaskCreate(vTaskSensorHandler,
+		  "SensorHandler",
+		  configMINIMAL_STACK_SIZE,
+		  NULL,
+		  3,
+		  NULL);
 
-  //xTaskCreate(vTaskDCMotorControl, "DC Motor Control", 128, NULL, 5, NULL);
+  //dcm task
+  xTaskCreate(vTaskControlHandler,
+		  "ControlHandler",
+		  configMINIMAL_STACK_SIZE,
+		  NULL,
+		  3,
+		  NULL);
+
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */

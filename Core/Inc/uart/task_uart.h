@@ -8,12 +8,12 @@
 #ifndef INC_PACKET_RECEIVER_H_
 #define INC_PACKET_RECEIVER_H_
 
+#include <common/commons.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
 #include <string.h>
 #include <stdio.h>
-#include "common.h"
 
 extern UART_HandleTypeDef huart1;
 

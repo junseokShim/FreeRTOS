@@ -4,8 +4,8 @@
  *  Created on: Feb 2, 2025
  *      Author: junseokshim
  */
-#include "controller.h"
-#include "common.h"
+#include <common/commons.h>
+#include <dcm/task_dcm_ctrl.h>
 #include "stm32l4xx_hal.h" // Include the HAL header file for GPIO definitions
 #include "stm32l4xx_hal_gpio.h" // Include the HAL header file for GPIO functions
 #include "stm32l4xx_hal_rcc.h" // Include the HAL header file for RCC functions
